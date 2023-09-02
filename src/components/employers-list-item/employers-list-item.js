@@ -3,7 +3,7 @@ import "./employers-list-item.css";
 const EmployersLisrItem = ({ name, salary, increase }) => {
     let classNames = "list-group-item d-flex justify-content-between";
     if (increase) {
-        classNames += " increase";
+        classNames += " increase";  
     }
 
     return (
