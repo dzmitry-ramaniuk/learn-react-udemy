@@ -7,7 +7,7 @@ const EmployersList = () => {
         <ul className="app-list list-group">
             <EmployersLisrItem />
             <EmployersLisrItem />
-            <EmployersLisrItem />ы
+            <EmployersLisrItem />
         </ul>
     );
 };
