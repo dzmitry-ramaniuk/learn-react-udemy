@@ -35,7 +35,6 @@ class CharInfo extends Component {
     };
 
     onCharLoaded = (char) => {
-        console.log(char);
         this.setState({ char, loading: false, error: false });
     };
 
