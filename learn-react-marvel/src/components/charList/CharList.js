@@ -17,7 +17,7 @@ class CharList extends Component {
 
     marvelService = new MarvelService();
 
-    componentDidMount() {   
+    componentDidMount() {
         this.onRequest();
     }
 
@@ -38,8 +38,16 @@ class CharList extends Component {
             ended = true;
         }
 
+        let mergedCharList = [...this.state.charList, ...newCharList];
+        let mergedCharListMap = mergedCharList.map((item) => {
+            return [item.id, item];
+        });
+
+        let filteredCharList = [...new Map([...mergedCharListMap]).values()];
+
         this.setState(({ offset, charList }) => ({
-            charList: [...charList, ...newCharList],
+            // charList: [...charList, ...newCharList],
+            charList: filteredCharList,
             loading: false,
             error: false,
             newItemLoading: false,
