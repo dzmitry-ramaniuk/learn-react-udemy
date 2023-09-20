@@ -2,18 +2,17 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import useMarvelService from "../../services/MarvelService";
-import Spinner from "../spinner/Spinner";
-import ErrorMessage from "../errorMessage/ErrorMessage";
 import AppBanner from "../appBanner/AppBanner";
+import setContent from "../../utils/setContent";
 
 const SinglePage = ({ Component, dataType }) => {
     const { id } = useParams();
     const [data, setData] = useState(null);
-    const {loading, error, getComics, getCharacter, clearError} = useMarvelService();
+    const { getComics, getCharacter, clearError, processName, setProcessName } = useMarvelService();
 
     useEffect(() => {
         updateData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     const updateData = () => {
@@ -21,10 +20,14 @@ const SinglePage = ({ Component, dataType }) => {
 
         switch (dataType) {
             case "characters":
-                getCharacter(id).then(onDataLoaded);
+                getCharacter(id)
+                    .then(onDataLoaded)
+                    .then(() => setProcessName("confirmed"));
                 break;
             case "comics":
-                getComics(id).then(onDataLoaded);
+                getComics(id)
+                    .then(onDataLoaded)
+                    .then(() => setProcessName("confirmed"));
                 break;
             default:
                 break;
@@ -35,16 +38,10 @@ const SinglePage = ({ Component, dataType }) => {
         setData(data);
     };
 
-    const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error || !data) ? <Component data={data} /> : null;
-
     return (
         <>
             <AppBanner />
-            {errorMessage}
-            {spinner}
-            {content}
+            {setContent(processName, Component, data)}
         </>
     );
 };

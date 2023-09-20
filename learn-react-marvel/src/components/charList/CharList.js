@@ -1,9 +1,25 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import useMarvelService from "../../services/MarvelService";
 
 import "./charList.scss";
+
+const setContent = (process, Component, newItemLoading) => {
+    switch (process) {
+        case "waiting":
+            return <Spinner />;
+        case "loading":
+            return newItemLoading ? <Component /> : null;
+        case "confirmed":
+            return <Component />;
+        case "error":
+            return <ErrorMessage />;
+        default:
+            throw new Error("Unexpected process state");
+    }
+};
 
 const CharList = (props) => {
     const [charList, setCharList] = useState([]);
@@ -11,15 +27,18 @@ const CharList = (props) => {
     const [offset, setOffset] = useState(210);
     const [charEnded, setCharEnded] = useState(false);
 
-    const { loading, error, getAllCharacters } = useMarvelService();
+    const { getAllCharacters, processName, setProcessName } = useMarvelService();
 
     useEffect(() => {
         onRequest(offset, true);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const onRequest = (offset, initial) => {
         setNewItemLoading(!initial);
-        getAllCharacters(offset).then(onCharListLoaded);
+        getAllCharacters(offset)
+            .then(onCharListLoaded)
+            .then(() => setProcessName("confirmed"));
     };
 
     const onCharListLoaded = (newCharList) => {
@@ -49,7 +68,7 @@ const CharList = (props) => {
         itemRefs.current[id].focus();
     };
 
-    function renderItems(arr) {
+    const renderItems = (arr) => {
         const items = arr.map((item, i) => {
             let imgStyle = { objectFit: "cover" };
             if (item.thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg") {
@@ -80,18 +99,16 @@ const CharList = (props) => {
         });
         // А эта конструкция вынесена для центровки спиннера/ошибки
         return <ul className="char__grid">{items}</ul>;
-    }
+    };
 
-    const items = renderItems(charList);
-
-    const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading && !newItemLoading ? <Spinner /> : null;
+    const elements = useMemo(() => {
+        return setContent(processName, () => renderItems(charList), newItemLoading);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [charList]);
 
     return (
         <div className="char__list">
-            {errorMessage}
-            {spinner}
-            {items}
+            {elements}
 
             <button
                 className="button button__main button__long"
