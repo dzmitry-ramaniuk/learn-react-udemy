@@ -103,7 +103,7 @@ const CharList = (props) => {
 
     const elements = useMemo(() => {
         return setContent(processName, () => renderItems(charList), newItemLoading);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [charList]);
 
     return (

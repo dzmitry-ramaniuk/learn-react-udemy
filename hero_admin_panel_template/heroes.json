@@ -1,0 +1,29 @@
+{
+  "heroes": [
+    {
+      "id": 3,
+      "name": "Морской герой",
+      "description": "Как аквамен, но не из DC",
+      "element": "water"
+    },
+    {
+      "id": "c82ef446-ffaa-4b8a-9641-8d468fed6317",
+      "name": "fgsdfgs",
+      "description": "sfgsdfg",
+      "element": "wind"
+    },
+    {
+      "id": "259c802f-2022-4f94-ad8d-edd5358e47f2",
+      "name": "gsdfgs",
+      "description": "sfgsdfg",
+      "element": "wind"
+    }
+  ],
+  "filters": [
+    "all",
+    "fire",
+    "water",
+    "wind",
+    "earth"
+  ]
+}
