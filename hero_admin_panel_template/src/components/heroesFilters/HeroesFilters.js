@@ -2,12 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useHttp } from "../../hooks/http.hook";
 
-import {
-    filtersFetching,
-    filtersFetched,
-    filtersFetchingError,
-    activeFilterChanged,
-} from "../../actions";
+import { activeFilterChanged, fetchFilters } from "../../actions";
 import Spinner from "../spinner/Spinner";
 
 // Задача для этого компонента:
@@ -18,22 +13,20 @@ import Spinner from "../spinner/Spinner";
 // Представьте, что вы попросили бэкенд-разработчика об этом
 
 const HeroesFilters = () => {
-    const { filters, filtersLoadingStatus, activeFilter } = useSelector((state) => state.filters);
+    const { filters, filtersLoadingStatus, activeFilter } = useSelector(
+        (state) => state.filters,
+    );
     const dispatch = useDispatch();
     const { request } = useHttp();
 
     useEffect(() => {
-        dispatch(filtersFetching());
-        request("http://localhost:3001/filters")
-            .then((data) => dispatch(filtersFetched(data)))
-            .catch(() => dispatch(filtersFetchingError()));
+        dispatch(fetchFilters(request));
     }, []);
 
     const renderFilters = (arr) => {
-       
         return arr.map((el, i) => {
             let btnClass = "btn btn-primary";
-            if(el === activeFilter) btnClass += " active"
+            if (el === activeFilter) btnClass += " active";
             return (
                 <button
                     key={i}
@@ -55,9 +48,7 @@ const HeroesFilters = () => {
         <div className="card shadow-lg mt-4">
             <div className="card-body">
                 <p className="card-text">Отфильтруйте героев по элементам</p>
-                <div className="btn-group">
-                    {elements}
-                </div>
+                <div className="btn-group">{elements}</div>
             </div>
         </div>
     );
