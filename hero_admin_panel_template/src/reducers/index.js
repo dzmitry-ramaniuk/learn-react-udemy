@@ -1,7 +1,6 @@
 const initialState = {
     heroes: [],
     heroesLoadingStatus: "idle",
-    filteredHeroes: [],
     filters: [],
     filtersLoadingStatus: "idle",
     activeFilter: "all",
@@ -19,11 +18,6 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 heroes: action.payload,
                 heroesLoadingStatus: "idle",
-                filteredHeroes: action.payload.filter(
-                    (hero) =>
-                        hero.element === state.activeFilter ||
-                        state.activeFilter === "all",
-                ),
             };
         case "HEROES_FETCHING_ERROR":
             return {
@@ -35,11 +29,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 heroes: newHeroList,
-                filteredHeroes: newHeroList.filter(
-                    (hero) =>
-                        hero.element === state.activeFilter ||
-                        state.activeFilter === "all",
-                ),
             };
         case "HEROES_DELETE":
             const newHeroes = state.heroes.filter(
@@ -48,11 +37,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 heroes: newHeroes,
-                filteredHeroes: newHeroes.filter(
-                    (hero) =>
-                        hero.element === state.activeFilter ||
-                        state.activeFilter === "all",
-                ),
             };
         case "FILTERS_FETCHING":
             return {
@@ -74,11 +58,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 activeFilter: action.payload,
-                filteredHeroes: state.heroes.filter(
-                    (hero) =>
-                        hero.element === action.payload ||
-                        action.payload === "all",
-                ),
             };
         default:
             return state;

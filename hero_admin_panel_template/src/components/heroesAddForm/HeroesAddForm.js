@@ -38,7 +38,6 @@ const HeroesAddForm = () => {
         };
 
         request("http://localhost:3001/heroes", "POST", JSON.stringify(newHero))
-            .then((data) => console.log(data))
             .then(() => dispatch(heroesAdd(newHero)))
             .catch((err) => console.log(err));
 

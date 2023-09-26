@@ -17,8 +17,17 @@ import { heroesDelete } from "../../actions";
 // Удаление идет и с json файла при помощи метода DELETE
 
 const HeroesList = () => {
-    const { filteredHeroes, heroesLoadingStatus } = useSelector(
-        (state) => state,
+    const filteredHeroes = useSelector((state) => {
+        if (state.activeFilter === "all") {
+            return state.heroes;
+        } else {
+            return state.heroes.filter(
+                (hero) => hero.element === state.activeFilter,
+            );
+        }
+    });
+    const heroesLoadingStatus = useSelector(
+        (state) => state.heroesLoadingStatus,
     );
     const dispatch = useDispatch();
     const { request } = useHttp();
