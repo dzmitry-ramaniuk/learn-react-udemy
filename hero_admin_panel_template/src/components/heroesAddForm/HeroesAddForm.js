@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import {
-    heroesAdd,
     filtersFetching,
     filtersFetched,
     filtersFetchingError,
-} from "../../actions";
+} from "../heroesFilters/filtersSlice";
+import { heroesAdd } from "../heroesList/heroesSlice";
 import { useHttp } from "../../hooks/http.hook";
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать

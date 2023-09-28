@@ -6,7 +6,7 @@ import { createSelector } from "reselect";
 import { fetchHeroes } from "../../actions";
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
-import { heroesDelete } from "../../actions";
+import { heroesDelete } from "./heroesSlice";
 
 // Задача для этого компонента:
 // При клике на "крестик" идет удаление персонажа из общего состояния
@@ -46,6 +46,7 @@ const HeroesList = () => {
                 dispatch(heroesDelete(id)),
             );
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [request],
     );
 
