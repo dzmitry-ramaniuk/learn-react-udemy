@@ -1,9 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { useHttp } from "../../hooks/http.hook";
 
-import { activeFilterChanged } from "./filtersSlice";
-import { fetchFilters } from "../../actions";
+import { activeFilterChanged, fetchFilters } from "./filtersSlice";
 import Spinner from "../spinner/Spinner";
 
 // Задача для этого компонента:
@@ -18,10 +16,10 @@ const HeroesFilters = () => {
         (state) => state.filters,
     );
     const dispatch = useDispatch();
-    const { request } = useHttp();
 
     useEffect(() => {
-        dispatch(fetchFilters(request));
+        dispatch(fetchFilters());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const renderFilters = (arr) => {

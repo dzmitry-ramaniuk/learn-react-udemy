@@ -1,12 +1,11 @@
 import { useHttp } from "../../hooks/http.hook";
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createSelector } from "reselect";
+import { createSelector } from "@reduxjs/toolkit";
 
-import { fetchHeroes } from "../../actions";
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
-import { heroesDelete } from "./heroesSlice";
+import { heroesDelete, fetchHeroes } from "./heroesSlice";
 
 // Задача для этого компонента:
 // При клике на "крестик" идет удаление персонажа из общего состояния
@@ -27,15 +26,14 @@ const HeroesList = () => {
     );
 
     const filteredHeroes = useSelector(filteredHeroesSelector);
-
     const heroesLoadingStatus = useSelector(
-        (state) => state.heroesLoadingStatus,
+        (state) => state.heroes.heroesLoadingStatus,
     );
     const dispatch = useDispatch();
     const { request } = useHttp();
 
     useEffect(() => {
-        dispatch(fetchHeroes(request));
+        dispatch(fetchHeroes());
 
         // eslint-disable-next-line
     }, []);
