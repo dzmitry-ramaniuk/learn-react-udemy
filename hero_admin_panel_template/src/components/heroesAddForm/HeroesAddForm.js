@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import {
-    filtersFetching,
-    filtersFetched,
-    filtersFetchingError,
-} from "../heroesFilters/filtersSlice";
+import { selectAll, fetchFilters } from "../heroesFilters/filtersSlice";
 import { heroesAdd } from "../heroesList/heroesSlice";
 import { useHttp } from "../../hooks/http.hook";
 // Задача для этого компонента:
@@ -23,7 +19,8 @@ const HeroesAddForm = () => {
     const [heroDescription, setHeroDescription] = useState("");
     const [heroElement, setHeroElement] = useState("");
 
-    const filters = useSelector((state) => state.filters.filters);
+    // const filters = useSelector((state) => selectAll());
+    const filters = useSelector(selectAll);
 
     const dispatch = useDispatch();
     const { request } = useHttp();
@@ -48,10 +45,7 @@ const HeroesAddForm = () => {
 
     const renderFilters = (arr) => {
         if (arr.length === 0) {
-            dispatch(filtersFetching());
-            request("http://localhost:3001/filters")
-                .then((data) => dispatch(filtersFetched(data)))
-                .catch(() => dispatch(filtersFetchingError()));
+            fetchFilters();
         }
 
         return arr.map((el, i) => {

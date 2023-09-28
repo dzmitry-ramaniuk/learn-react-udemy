@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 import { activeFilterChanged, fetchFilters } from "./filtersSlice";
 import Spinner from "../spinner/Spinner";
+import {selectAll as selectAllFilters} from "./filtersSlice";
 
 // Задача для этого компонента:
 // Фильтры должны формироваться на основании загруженных данных
@@ -12,14 +13,14 @@ import Spinner from "../spinner/Spinner";
 // Представьте, что вы попросили бэкенд-разработчика об этом
 
 const HeroesFilters = () => {
-    const { filters, filtersLoadingStatus, activeFilter } = useSelector(
+    const filters = useSelector(selectAllFilters);
+    const { filtersLoadingStatus, activeFilter } = useSelector(
         (state) => state.filters,
     );
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(fetchFilters());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const renderFilters = (arr) => {

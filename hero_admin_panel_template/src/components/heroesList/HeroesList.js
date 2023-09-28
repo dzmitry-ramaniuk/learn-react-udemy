@@ -5,7 +5,7 @@ import { createSelector } from "@reduxjs/toolkit";
 
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
-import { heroesDelete, fetchHeroes } from "./heroesSlice";
+import { heroesDelete, fetchHeroes, selectAll as selectAllHeroes } from "./heroesSlice";
 
 // Задача для этого компонента:
 // При клике на "крестик" идет удаление персонажа из общего состояния
@@ -14,7 +14,7 @@ import { heroesDelete, fetchHeroes } from "./heroesSlice";
 
 const HeroesList = () => {
     const filteredHeroesSelector = createSelector(
-        (state) => state.heroes.heroes,
+        selectAllHeroes,
         (state) => state.filters.activeFilter,
         (heroes, activeFilter) => {
             if (activeFilter === "all") {
