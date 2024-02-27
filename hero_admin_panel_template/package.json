@@ -13,7 +13,7 @@
     "react-scripts": "^5.0.1",
     "redux-thunk": "^2.4.2",
     "reselect": "^4.1.8",
-    "sass": "^1.68.0",
+    "sass": "^1.70.0",
     "uuid": "^9.0.1"
   },
   "scripts": {
